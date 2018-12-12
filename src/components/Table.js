@@ -3,15 +3,25 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 class Table extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
+    this.state = { companies: {} };
+  }
+
+  async fetchData() {
+    const baseURL =
+      "https://gist.githubusercontent.com/cranium/d8b83184bf0750f2c834760b7c9203dc/raw/a73a70716951f77b90e84b8848ff1fee46938dd1/soi.json";
+    const response = await fetch(baseURL);
+    const data = await response.json();
+    this.setState({ companies: data });
   }
 
   render() {
     const data = [{ id: 1 }];
+    this.fetchData();
     return (
       <div>
+        <h1>Schedule of Investments </h1>
         <ReactTable
           data={data}
           columns={[
@@ -21,10 +31,7 @@ class Table extends React.Component {
               columns: [
                 {
                   Header: "Arcanerover",
-                  accessor: "title",
-                  Footer: () => (
-                    <div style={{ textAlign: "center" }}>First Name</div>
-                  )
+                  accessor: "title"
                 }
               ]
             },
@@ -39,8 +46,8 @@ class Table extends React.Component {
               columns: [
                 {
                   Header: "$700,000",
-                  accessor: "age",
-                  Footer: () => <div style={{ textAlign: "center" }}>Age</div>
+                  accessor: "age"
+                  //   Footer: () => <div style={{ textAlign: "center" }}>Age</div>
                 }
               ]
             },
@@ -72,8 +79,9 @@ class Table extends React.Component {
               ]
             }
           ]}
-          defaultPageSize={500}
+          defaultPageSize={50}
           className="-striped -highlight"
+          SubComponent={() => <div style={{ padding: "10px" }}>Hello</div>}
         />
       </div>
     );

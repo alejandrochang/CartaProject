@@ -1,10 +1,9 @@
 import React from "react";
 import Table from "./Table";
 
-const App = () => {
+const App = (props) => {
   return (
     <div>
-      <h1>Schedule of Investments </h1>
       <Table />
     </div>
   );
