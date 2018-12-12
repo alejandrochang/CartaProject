@@ -1,65 +1,81 @@
-import React from 'react';
+import React, { Component } from "react";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
 
 class Table extends React.Component {
   constructor() {
     super();
-
-    this.state = {
-      data: [
-        { id: 1, date: "2014-04-18", total: 121.0, status: "Shipped", name: "A", points: 5, percent: 50 },
-        { id: 2, date: "2014-04-21", total: 121.0, status: "Not Shipped", name: "B", points: 10, percent: 60 },
-        { id: 3, date: "2014-08-09", total: 121.0, status: "Not Shipped", name: "C", points: 15, percent: 70 },
-        { id: 4, date: "2014-04-24", total: 121.0, status: "Shipped", name: "D", points: 20, percent: 80 },
-        { id: 5, date: "2014-04-26", total: 121.0, status: "Shipped", name: "E", points: 25, percent: 90 },
-      ],
-      expandedRows: []
-    };
-  }
-
-  handleRowClick(rowId) {
-    const currentExpandedRows = this.state.expandedRows;
-    const isRowCurrentlyExpanded = currentExpandedRows.includes(rowId);
-
-    const newExpandedRows = isRowCurrentlyExpanded ?
-      currentExpandedRows.filter(id => id !== rowId) :
-      currentExpandedRows.concat(rowId);
-
-    this.setState({ expandedRows: newExpandedRows });
-  }
-
-  renderItem(item) {
-    const clickCallback = () => this.handleRowClick(item.id);
-    const itemRows = [
-      <tr onClick={clickCallback} key={"row-data-" + item.id}>
-        <td>{item.date}</td>
-        <td>{item.total}</td>
-        <td>{item.status}</td>
-      </tr>
-    ];
-
-    if (this.state.expandedRows.includes(item.id)) {
-      itemRows.push(
-        <tr key={"row-expanded-" + item.id}>
-          <td>{item.name}</td>
-          <td>{item.points}</td>
-          <td>{item.percent}</td>
-        </tr>
-      );
-    }
-
-    return itemRows;
+    this.state = {};
   }
 
   render() {
-    let allItemRows = [];
-
-    this.state.data.forEach(item => {
-      const perItemRows = this.renderItem(item);
-      allItemRows = allItemRows.concat(perItemRows);
-    });
-
+    const data = [{ id: 1 }];
     return (
-      <table>{allItemRows}</table>
+      <div>
+        <ReactTable
+          data={data}
+          columns={[
+            {
+              Header: "Investment",
+              accessor: "Investment",
+              columns: [
+                {
+                  Header: "Arcanerover",
+                  accessor: "title",
+                  Footer: () => (
+                    <div style={{ textAlign: "center" }}>First Name</div>
+                  )
+                }
+              ]
+            },
+            { Header: "Asset", accessor: "Asset", columns: [{}] },
+            { Header: "Investment Date", columns: [{}] },
+            {
+              Header: "Shares",
+              columns: [{ Header: "25,000", accessor: "age" }]
+            },
+            {
+              Header: "Cost",
+              columns: [
+                {
+                  Header: "$700,000",
+                  accessor: "age",
+                  Footer: () => <div style={{ textAlign: "center" }}>Age</div>
+                }
+              ]
+            },
+            {
+              Header: "Expand",
+              columns: [
+                {
+                  expander: true,
+                  Header: () => <strong>More</strong>,
+                  width: 65,
+                  Expander: ({ isExpanded, ...rest }) => (
+                    <div>
+                      {isExpanded ? (
+                        <span>&#x2299;</span>
+                      ) : (
+                        <span>&#x2295;</span>
+                      )}
+                    </div>
+                  ),
+                  style: {
+                    cursor: "pointer",
+                    fontSize: 25,
+                    padding: "0",
+                    textAlign: "center",
+                    userSelect: "none"
+                  },
+                  Footer: () => <span>&hearts;</span>
+                }
+              ]
+            }
+          ]}
+          defaultPageSize={500}
+          className="-striped -highlight"
+        />
+      </div>
     );
   }
 }
