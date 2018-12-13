@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
+import IndividualCompany from "./IndividualCompany";
 import "react-table/react-table.css";
 
 class Table extends React.Component {
@@ -16,41 +17,23 @@ class Table extends React.Component {
     this.setState({ companies: data });
   }
 
-  render() {
-    const data = [{ id: 1 }];
+  componentDidMount() {
     this.fetchData();
+  }
+
+  render() {
+    const data = [ { investment: 'hello' }];
     return (
       <div>
         <h1>Schedule of Investments </h1>
         <ReactTable
           data={data}
           columns={[
-            {
-              Header: "Investment",
-              accessor: "Investment",
-              columns: [
-                {
-                  Header: "Arcanerover",
-                  accessor: "title"
-                }
-              ]
-            },
-            { Header: "Asset", accessor: "Asset", columns: [{}] },
-            { Header: "Investment Date", columns: [{}] },
-            {
-              Header: "Shares",
-              columns: [{ Header: "25,000", accessor: "age" }]
-            },
-            {
-              Header: "Cost",
-              columns: [
-                {
-                  Header: "$700,000",
-                  accessor: "age"
-                  //   Footer: () => <div style={{ textAlign: "center" }}>Age</div>
-                }
-              ]
-            },
+            { Header: "Investment", accessor: "investment" },
+            { Header: "Asset", accessor: "asset" },
+            { Header: "Investment Date", accessor: "investmentDate" },
+            { Header: "Shares", accessor: "Shares" },
+            { Header: "Cost", accessor: "Cost" },
             {
               Header: "Expand",
               columns: [
@@ -79,10 +62,12 @@ class Table extends React.Component {
               ]
             }
           ]}
-          defaultPageSize={50}
+          defaultPageSize={20}
           className="-striped -highlight"
-          SubComponent={() => <div style={{ padding: "10px" }}>Hello</div>}
+          SubComponent={() => <div style={{ padding: "10px", padddingLeft: "10%" }}>Asset</div>}
         />
+        <IndividualCompany companies={this.state.companies} />
+        Found {this.state.companies.length} companies
       </div>
     );
   }
